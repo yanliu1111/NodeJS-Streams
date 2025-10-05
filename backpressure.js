@@ -1,12 +1,12 @@
 const {createReadStream, createWriteStream} = require('fs');
-const readStream = createReadStream('./anime_dancing.mp4');
+const readStream = createReadStream('./file_example_MP4_480_1_5MG.mp4');
 const writeStream = createWriteStream('./copy.mp4', {
   // highWaterMark: 162802
 });
 
 readStream.on('data', (chunk) => {
   const result = writeStream.write(chunk);
-
+  // which can tell the hole is full or not, If the hole is full, it will return pause pushing data
   if(!result) {
     console.log('backpressure');
     readStream.pause();

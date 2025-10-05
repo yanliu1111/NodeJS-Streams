@@ -14,7 +14,7 @@ readStream.on('error', (err) => {
 readStream.on('end', () => {
   writeStream.end();
 })
-
+//stdout means standard output, which is typically the console or terminal where the Node.js process is running.
 writeStream.on('close', () => {
   process.stdout.write('file copied \n');
 })
