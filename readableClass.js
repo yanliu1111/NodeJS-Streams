@@ -9,25 +9,24 @@ const advices = [
 ];
 
 class StreamFromArray extends Readable {
-
+  // constructor is for initializing the object
   constructor(array){
     super({ objectMode: true}); //encoding: 'UTF-8' => Converts buffer to string
     this.array = array;
     this.index = 0
   }
-
+  //build private function.
   _read() {
     if(this.index <= this.array.length){
       const chunk = {
         data: this.array[this.index],
         index: this.index
       }
-      this.push(chunk);
+      this.push(chunk); //push the chunks to stream
       this.index += 1;
     }else this.push(null);
   }
 }
-
 
 const adviceStream = new StreamFromArray(advices);
 

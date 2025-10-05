@@ -1,6 +1,6 @@
 var fs = reqyure('fs');
 var http = require('http');
-var file = './anime_dancing.mp4';
+var file = './file_example_MP4_480_1_5MG.mp4';
 
 http.createServer(function(req, res) {
     res.writeHead(200, {'Content-Type': 'video/mp4'});
