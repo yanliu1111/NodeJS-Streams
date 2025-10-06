@@ -12,8 +12,8 @@ const sendOGVideo = async (req, res) => {
   if(range){
     let [start, end] = range.replace(/bytes=/, '').split('-');
     start = parseInt(start, 10);
-    end = end ? parseInt(end, 10) : size-1;
-
+    end = end ? parseInt(end, 10) : size-1; // size -1 means the end of the file
+    // 206 means partial content
     res.writeHead(206, {
       'Content-Range': `bytes ${start}-${end}/${size}`,
       'Accept-Ranges': 'bytes',
