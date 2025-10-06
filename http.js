@@ -3,7 +3,7 @@ const {stat, createReadStream, createWriteStream} = require('fs');
 const {promisify} = require('util');
 const multiparty = require('multiparty');
 
-const filename = './anime_dancing.mp4';
+const filename = './file_example_MP4_480_1_5MG.mp4';
 const fileInfo = promisify(stat);
 
 const sendOGVideo = async (req, res) => {

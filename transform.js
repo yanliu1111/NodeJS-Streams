@@ -1,3 +1,4 @@
+//transform stream is changed data
 const {Transform} = require('stream');
 
 class ReplaceText extends Transform {
@@ -11,10 +12,10 @@ class ReplaceText extends Transform {
     this.push(transformChunk);
     callback();
   }
-
+//The _flush(callback) method is part of the Transform stream API in Node.js. It is called once at the end of the stream, after all chunks have been processed, to allow you to perform any final processing or cleanup before the stream ends.
   _flush(callback){
     this.push('more stuff us being passed through...')
-    callback();
+    callback(); // Signal that the flush operation is complete
   }
 }
 
