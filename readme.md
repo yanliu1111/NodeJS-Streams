@@ -4,6 +4,10 @@
 3. Node JS - Writable Stream & Backpressure
 4. Node JS - pipe, duplex, transform Streams
 5. Node JS - HTTP Streaming
+6. Node Express - File Upload/Download with Streams (in folder)
+7. Node with Mongodb - File Upload/Download with Streams (in folder)
+   
+   example video: file_example_MP4_480_1_5MG.mp4
 
 ## Learning Resources
 [Node-JS-Streams Youtube Tutorial](https://www.youtube.com/playlist?list=PLrwNNiB6YOA18XANsFe0CnizlhYKjJT0f)
