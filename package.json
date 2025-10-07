@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "nodejs streams",
   "main": "index.js",
-  "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
-  },
+  "scripts": { },
   "keywords": [],
   "author": "",
   "license": "ISC",
