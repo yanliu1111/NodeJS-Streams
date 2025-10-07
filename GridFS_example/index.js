@@ -42,6 +42,22 @@ app.get('/init-video', async function (req, res) {
   }
 });
 
+app.get("/mongo-video", (req, res) => {
+  try {
+    const db = mongoose.connection.db;
+    const bucket = new GridFSBucket(db);
+    const downloadStream = bucket.openDownloadStreamByName('bigbuck');
+    res.set('Content-Type', 'video/mp4');
+    downloadStream.pipe(res).on('error', (error) => {
+      console.error('Error streaming video:', error);
+      res.status(500).send('Error streaming video');
+  });
+} catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
