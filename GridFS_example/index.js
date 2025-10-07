@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const fs = require('fs');
-const { GridFSBucket } = require('mongodb'); // Use GridFSBucket for file uploads
-const connectDB = require('./db'); // Import the Mongoose connection setup
-require('dotenv').config(); // Load environment variables
+const { GridFSBucket } = require('mongodb'); 
+const connectDB = require('./db'); 
+require('dotenv').config(); 
 
 const app = express();
 const PORT = 5050;
@@ -11,7 +11,6 @@ const PORT = 5050;
 // Connect to MongoDB using Mongoose
 connectDB();
 
-// Serve the HTML file
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
@@ -27,7 +26,7 @@ app.get('/init-video', async function (req, res) {
 
     // Open a stream to upload the video
     const videoUploadStream = bucket.openUploadStream('bigbuck');
-    const videoReadStream = fs.createReadStream('./bigbuck.mp4');
+    const videoReadStream = fs.createReadStream('./file_example_MP4_480_1_5MG.mp4');
 
     videoReadStream.pipe(videoUploadStream)
       .on('error', (error) => {
