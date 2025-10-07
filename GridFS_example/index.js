@@ -18,13 +18,9 @@ app.get("/", function (req, res) {
 // Upload video to GridFS
 app.get('/init-video', async function (req, res) {
   try {
-    // Get the native MongoDB connection from Mongoose
     const db = mongoose.connection.db;
-
-    // Create a GridFS bucket
     const bucket = new GridFSBucket(db);
 
-    // Open a stream to upload the video
     const videoUploadStream = bucket.openUploadStream('bigbuck');
     const videoReadStream = fs.createReadStream('./file_example_MP4_480_1_5MG.mp4');
 
@@ -42,17 +38,38 @@ app.get('/init-video', async function (req, res) {
   }
 });
 
-app.get("/mongo-video", (req, res) => {
+app.get("/mongo-video", async (req, res) => {
   try {
     const db = mongoose.connection.db;
+    // Check for the Range header
+    const range = req.headers.range;
+    if (!range) {
+      return res.status(400).send("Requires Range header");
+    }
+
+    const video = await db.collection('fs.files').findOne({ filename: 'bigbuck' });
+    if (!video) {
+      return res.status(404).send('Video not found');
+    }
+    const videoSize = video.length;
+    const start = Number(range.replace(/\D/g, ''));
+    const end = videoSize - 1;
+    const contentLength = end - start + 1;
+    const headers = {
+      'Content-Range': `bytes ${start}-${end}/${videoSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': contentLength,
+      'Content-Type': 'video/mp4',
+    }
+    res.writeHead(206, headers);
     const bucket = new GridFSBucket(db);
-    const downloadStream = bucket.openDownloadStreamByName('bigbuck');
-    res.set('Content-Type', 'video/mp4');
+    const downloadStream = bucket.openDownloadStreamByName('bigbuck', { start, end: end + 1 });
+    // Pipe the video stream to the response
     downloadStream.pipe(res).on('error', (error) => {
       console.error('Error streaming video:', error);
       res.status(500).send('Error streaming video');
-  });
-} catch (error) {
+    });
+  } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal Server Error');
   }
